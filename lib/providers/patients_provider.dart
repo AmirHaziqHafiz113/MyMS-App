@@ -28,9 +28,10 @@ class Patients_Provider with ChangeNotifier {
     return _patients.firstWhere((patient) => patient.id == id);
   }
 
-  Future<void> fetchAndSetPatients() async {
+  Future<void> fetchAndSetPatients([bool filterByUser = false]) async {
+    final filterString = filterByUser ? 'orderBy="creatorId"&equalTo="$userId"' : '';
     var url =
-        'https://msapp-533d1-default-rtdb.firebaseio.com/patients.json?auth=$authToken';
+        'https://msapp-533d1-default-rtdb.firebaseio.com/patients.json?auth=$authToken&$filterString';
     try {
       final response = await http.get(url);
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
@@ -64,7 +65,7 @@ class Patients_Provider with ChangeNotifier {
 
   Future<void> addPatient(Patient value) async {
     final url =
-        'https://msapp-533d1-default-rtdb.firebaseio.com/patients.json?auth=$authToken';
+        'https://msapp-533d1-default-rtdb.firebaseio.com/patients.json?auth=$authToken&orderBy="creatorId"&equalTo="$userId"';
     try {
       final response = await http.post(
         url,
@@ -76,6 +77,7 @@ class Patients_Provider with ChangeNotifier {
           'diagnosis': value.diagnosis,
           'price': value.price,
           'image': value.image,
+          'creatorId': userId,
         }),
       );
       final newPatient = Patient(

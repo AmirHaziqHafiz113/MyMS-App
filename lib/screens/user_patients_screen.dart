@@ -11,12 +11,13 @@ class UserPatientScreen extends StatelessWidget {
 
   Future<void> _refreshPatients(BuildContext context) async {
     await Provider.of<Patients_Provider>(context, listen: false)
-        .fetchAndSetPatients();
+        .fetchAndSetPatients(true);
   }
 
   @override
   Widget build(BuildContext context) {
-    final patientsData = Provider.of<Patients_Provider>(context);
+    // final patientsData = Provider.of<Patients_Provider>(context);
+    print('rebuilding...');
     return Scaffold(
       appBar: AppBar(
         title: const Text('User Patients'),
@@ -30,26 +31,36 @@ class UserPatientScreen extends StatelessWidget {
         ],
       ),
       drawer: AppDrawer(),
-      body: RefreshIndicator(
-        onRefresh: () => _refreshPatients(context),
-        child: Padding(
-          padding: EdgeInsets.all(8),
-          child: ListView.builder(
-            itemCount: patientsData.patients.length,
-            itemBuilder: (_, i) => Column(
-              children: [
-                UserPatientItem(
-                  patientsData.patients[i].id,
-                  patientsData.patients[i].name,
-                  patientsData.patients[i].image,
-                  patientsData.patients[i].diagnosis,
-                  patientsData.patients[i].treatment,
-                ),
-                Divider(),
-              ],
-            ),
-          ),
-        ),
+      body: FutureBuilder(
+        future: _refreshPatients(context),
+        builder: (ctx, snapshot) =>
+            snapshot.connectionState == ConnectionState.waiting
+                ? Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : RefreshIndicator(
+                    onRefresh: () => _refreshPatients(context),
+                    child: Consumer<Patients_Provider>(
+                      builder: (ctx, patientsData, _) => Padding(
+                        padding: EdgeInsets.all(8),
+                        child: ListView.builder(
+                          itemCount: patientsData.patients.length,
+                          itemBuilder: (_, i) => Column(
+                            children: [
+                              UserPatientItem(
+                                patientsData.patients[i].id,
+                                patientsData.patients[i].name,
+                                patientsData.patients[i].image,
+                                patientsData.patients[i].diagnosis,
+                                patientsData.patients[i].treatment,
+                              ),
+                              Divider(),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
       ),
     );
   }
