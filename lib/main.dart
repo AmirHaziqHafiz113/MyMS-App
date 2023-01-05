@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_complete_guide/screens/cart_screen.dart';
-import 'package:flutter_complete_guide/screens/splash_screen.dart';
 import 'package:provider/provider.dart';
 import './screens/patient_overview.dart';
 import './screens/cart_screen.dart';

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_complete_guide/models/http_exception.dart';
-
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -29,7 +27,8 @@ class Patients_Provider with ChangeNotifier {
   }
 
   Future<void> fetchAndSetPatients([bool filterByUser = false]) async {
-    final filterString = filterByUser ? 'orderBy="creatorId"&equalTo="$userId"' : '';
+    final filterString =
+        filterByUser ? 'orderBy="creatorId"&equalTo="$userId"' : '';
     var url =
         'https://msapp-533d1-default-rtdb.firebaseio.com/patients.json?auth=$authToken&$filterString';
     try {
