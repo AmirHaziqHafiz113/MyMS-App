@@ -40,12 +40,12 @@ class Patient with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> toggleMarkedStatus() async {
+  Future<void> toggleMarkedStatus(String token) async {
     final oldMarked = isMarked;
     isMarked = !isMarked;
     notifyListeners();
     final url =
-        'https://msapp-533d1-default-rtdb.firebaseio.com/patients/$id.json';
+        'https://msapp-533d1-default-rtdb.firebaseio.com/patients/$id.json?auth=$token';
     try {
       final response = await http.patch(url,
           body: json.encode({

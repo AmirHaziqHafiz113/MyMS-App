@@ -58,7 +58,8 @@ class Patients_Provider with ChangeNotifier {
   }
 
   Future<void> addPatient(Patient value) async {
-    const url = 'https://msapp-533d1-default-rtdb.firebaseio.com/patients.json';
+    final url =
+        'https://msapp-533d1-default-rtdb.firebaseio.com/patients.json?auth=$authToken';
     try {
       final response = await http.post(
         url,
@@ -95,7 +96,7 @@ class Patients_Provider with ChangeNotifier {
     final patientIndex = _patients.indexWhere((patient) => patient.id == id);
     if (patientIndex >= 0) {
       final url =
-          'https://msapp-533d1-default-rtdb.firebaseio.com/patients/$id.json';
+          'https://msapp-533d1-default-rtdb.firebaseio.com/patients/$id.json?auth=$authToken';
       try {
         await http.patch(url,
             body: json.encode({
@@ -119,7 +120,7 @@ class Patients_Provider with ChangeNotifier {
 
   Future<void> deletePatient(String id) async {
     final url =
-        'https://msapp-533d1-default-rtdb.firebaseio.com/patients/$id.json';
+        'https://msapp-533d1-default-rtdb.firebaseio.com/patients/$id.json?auth=$authToken';
     final existingPatientIndex =
         _patients.indexWhere((patient) => patient.id == id);
     var existingPatient = _patients[existingPatientIndex];

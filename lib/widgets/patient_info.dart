@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_complete_guide/providers/auth.dart';
 import 'package:provider/provider.dart';
 import '../screens/patient_detail_screen.dart';
 import '../providers/patient.dart';
 import '../providers/cart.dart';
+import '../providers/auth.dart';
 
 class PatientInfo extends StatelessWidget {
   // final String id;
@@ -15,6 +17,7 @@ class PatientInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final patient = Provider.of<Patient>(context, listen: false);
+    final authData = Provider.of<Auth>(context, listen: false);
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: GridTile(
@@ -35,7 +38,7 @@ class PatientInfo extends StatelessWidget {
               icon: Icon(
                   patient.isMarked ? Icons.favorite : Icons.favorite_border),
               onPressed: () {
-                patient.toggleMarkedStatus();
+                patient.toggleMarkedStatus(authData.token);
               },
               color: Colors.red,
             ),
