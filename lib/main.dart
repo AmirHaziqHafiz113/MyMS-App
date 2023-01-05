@@ -10,6 +10,7 @@ import './providers/cart.dart';
 import './providers/orders.dart';
 import './screens/orders_screen.dart';
 import './screens/edit_patient_screen.dart';
+import './screens/auth_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.purple)
               .copyWith(secondary: Colors.deepOrange),
         ),
-        home: PatientOverview(),
+        home: AuthScreen(),
         routes: {
           PatientDetailScreen.routeName: (ctx) => PatientDetailScreen(),
           CartScreen.routeName: (ctx) => CartScreen(),
