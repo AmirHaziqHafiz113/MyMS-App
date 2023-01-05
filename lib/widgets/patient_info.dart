@@ -38,7 +38,7 @@ class PatientInfo extends StatelessWidget {
               icon: Icon(
                   patient.isMarked ? Icons.favorite : Icons.favorite_border),
               onPressed: () {
-                patient.toggleMarkedStatus(authData.token);
+                patient.toggleMarkedStatus(authData.token, authData.userId);
               },
               color: Colors.red,
             ),

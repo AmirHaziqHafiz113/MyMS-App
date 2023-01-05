@@ -12,8 +12,9 @@ class Patients_Provider with ChangeNotifier {
   // var _showOnlyMarked = false;
 
   final String authToken;
+  final String userId;
 
-  Patients_Provider(this.authToken, this._patients);
+  Patients_Provider(this.authToken, this.userId, this._patients);
 
   List<Patient> get patients {
     return [..._patients];
@@ -28,7 +29,7 @@ class Patients_Provider with ChangeNotifier {
   }
 
   Future<void> fetchAndSetPatients() async {
-    final url =
+    var url =
         'https://msapp-533d1-default-rtdb.firebaseio.com/patients.json?auth=$authToken';
     try {
       final response = await http.get(url);
@@ -36,6 +37,10 @@ class Patients_Provider with ChangeNotifier {
       if (extractedData == null) {
         return;
       }
+      url =
+          'https://msapp-533d1-default-rtdb.firebaseio.com/userMarked/$userId.json?auth=$authToken';
+      final markedResponse = await http.get(url);
+      final markedData = json.decode(markedResponse.body);
       final List<Patient> loadedPatients = [];
       extractedData.forEach((patientId, patientData) {
         loadedPatients.add(Patient(
@@ -47,7 +52,7 @@ class Patients_Provider with ChangeNotifier {
           diagnosis: patientData['diagnosis'],
           price: patientData['price'],
           image: patientData['image'],
-          isMarked: patientData['isMarked'],
+          isMarked: markedData == null ? false : markedData[patientId] ?? false,
         ));
       });
       _patients = loadedPatients;
@@ -71,7 +76,6 @@ class Patients_Provider with ChangeNotifier {
           'diagnosis': value.diagnosis,
           'price': value.price,
           'image': value.image,
-          'isMarked': value.isMarked,
         }),
       );
       final newPatient = Patient(

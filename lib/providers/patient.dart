@@ -40,17 +40,19 @@ class Patient with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> toggleMarkedStatus(String token) async {
+  Future<void> toggleMarkedStatus(String token, String userId) async {
     final oldMarked = isMarked;
     isMarked = !isMarked;
     notifyListeners();
     final url =
-        'https://msapp-533d1-default-rtdb.firebaseio.com/patients/$id.json?auth=$token';
+        'https://msapp-533d1-default-rtdb.firebaseio.com/userMarked/$userId/$id.json?auth=$token';
     try {
-      final response = await http.patch(url,
-          body: json.encode({
-            'isMarked': isMarked,
-          }));
+      final response = await http.put(
+        url,
+        body: json.encode(
+          isMarked,
+        ),
+      );
       if (response.statusCode >= 400) {
         _setMarkedValue(oldMarked);
       }
