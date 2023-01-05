@@ -11,6 +11,10 @@ class Patients_Provider with ChangeNotifier {
   List<Patient> _patients = [];
   // var _showOnlyMarked = false;
 
+  final String authToken;
+
+  Patients_Provider(this.authToken, this._patients);
+
   List<Patient> get patients {
     return [..._patients];
   }
@@ -24,7 +28,8 @@ class Patients_Provider with ChangeNotifier {
   }
 
   Future<void> fetchAndSetPatients() async {
-    const url = 'https://msapp-533d1-default-rtdb.firebaseio.com/patients.json';
+    final url =
+        'https://msapp-533d1-default-rtdb.firebaseio.com/patients.json?auth=$authToken';
     try {
       final response = await http.get(url);
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
