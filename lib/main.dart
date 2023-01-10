@@ -47,8 +47,9 @@ class MyApp extends StatelessWidget {
           builder: (ctx, auth, _) => MaterialApp(
             title: 'MyShop',
             theme: ThemeData(
-              colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.purple)
-                  .copyWith(secondary: Colors.deepOrange),
+              colorScheme:
+                  ColorScheme.fromSwatch(primarySwatch: Colors.lightBlue)
+                      .copyWith(secondary: Colors.amberAccent),
             ),
             home: auth.isAuth
                 ? PatientOverview()
