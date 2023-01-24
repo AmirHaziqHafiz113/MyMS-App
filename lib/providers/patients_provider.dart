@@ -47,14 +47,15 @@ class Patients_Provider with ChangeNotifier {
           id: patientId,
           name: patientData['name'],
           email: patientData['email'],
-          age: patientData['age'],
+          age: int.parse(patientData['age']),
           treatment: patientData['treatment'],
           diagnosis: patientData['diagnosis'],
-          price: patientData['price'],
+          price: double.parse(patientData['price']),
           image: patientData['image'],
           isMarked: markedData == null ? false : markedData[patientId] ?? false,
         ));
       });
+      _patients = [];
       _patients = loadedPatients;
       notifyListeners();
     } catch (error) {
@@ -71,10 +72,10 @@ class Patients_Provider with ChangeNotifier {
         body: json.encode({
           'name': value.name,
           'email': value.email,
-          'age': value.age,
+          'age': value.age.toString(),
           'treatment': value.treatment,
           'diagnosis': value.diagnosis,
-          'price': value.price,
+          'price': value.price.toString(),
           'image': value.image,
           'creatorId': userId,
         }),
