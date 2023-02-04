@@ -5,32 +5,22 @@ import 'dart:convert';
 class Patient with ChangeNotifier {
   final String id;
   final String name;
-  final String email;
-  final int phone;
   final int age;
   final double price;
-  final String address;
   final String diagnosisDate;
   final String diagnosis;
   final String treatment;
-  final String currentMedicDose;
-  final String currentMedicName;
   final String image;
   bool isMarked;
 
   Patient({
     @required this.id,
     @required this.name,
-    @required this.email,
-    @required this.phone,
     @required this.age,
     @required this.price,
-    @required this.address,
     @required this.diagnosisDate,
     @required this.diagnosis,
     @required this.treatment,
-    @required this.currentMedicDose,
-    @required this.currentMedicName,
     @required this.image,
     this.isMarked = false,
   });

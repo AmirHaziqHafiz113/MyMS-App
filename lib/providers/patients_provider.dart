@@ -46,7 +46,6 @@ class Patients_Provider with ChangeNotifier {
         loadedPatients.add(Patient(
           id: patientId,
           name: patientData['name'],
-          email: patientData['email'],
           age: int.parse(patientData['age']),
           treatment: patientData['treatment'],
           diagnosis: patientData['diagnosis'],
@@ -71,7 +70,6 @@ class Patients_Provider with ChangeNotifier {
         url,
         body: json.encode({
           'name': value.name,
-          'email': value.email,
           'age': value.age.toString(),
           'treatment': value.treatment,
           'diagnosis': value.diagnosis,
@@ -82,7 +80,6 @@ class Patients_Provider with ChangeNotifier {
       );
       final newPatient = Patient(
         name: value.name,
-        email: value.email,
         age: value.age,
         treatment: value.treatment,
         diagnosis: value.diagnosis,
@@ -107,7 +104,6 @@ class Patients_Provider with ChangeNotifier {
         await http.patch(url,
             body: json.encode({
               'name': newPatient.name,
-              'email': newPatient.email,
               'age': newPatient.age,
               'treatment': newPatient.treatment,
               'diagnosis': newPatient.diagnosis,
